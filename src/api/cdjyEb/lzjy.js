@@ -1,0 +1,89 @@
+import request from '@/utils/request'
+import http from '@/utils/httpapi'
+const apiTop = {
+    allinfo: http + '/Quarantine/AH_AiryEmbryoQuarantineList',
+    addinfo: http + '/Quarantine/AH_AiryEmbryoQuarantine',
+    oneinfo: http + '/Quarantine/AH_AiryEmbryoQuarantineXQ',
+    updateinfo: http + '/Quarantine/AH_AiryEmbryoQuarantineUpdate',
+    deleteinfo: http + '/Quarantine/AH_AiryEmbryoQuarantineDel',
+    sbdinfo: http + '/Quarantine/V_AiryEmbryoQuarantine_SbdList',
+    shipperinfo: http + '/Material/OwnerGet'
+}
+// 查询乳用、种用动物检疫工作记录单列表
+export function FindAllInfo (p) {
+  if (!p.addree) {
+    p.addree = ''
+  }
+    return request({
+        url: apiTop.allinfo + '?pageindex=' + p.offset + '&pagesize=' + p.limit + '&selectwhere=shippername:' + p.selectwhere + p.addree,
+        method: 'get',
+        headers: {
+            'UserId': p.UserId
+        }
+    })
+}
+// 查看
+export function FindInfoByFStId (p) {
+    return request({
+        url: apiTop.oneinfo + '?FStId=' + p.FStId,
+        method: 'get',
+        headers: {
+            'UserId': p.UserId
+        }
+    })
+}
+
+// 新增
+export function AddInfo (p) {
+    return request({
+        url: apiTop.addinfo,
+        method: 'post',
+        data: p,
+        headers: {
+            'UserId': p.UserId
+        }
+    })
+}
+// 修改
+export function UpdateInfo (p) {
+    return request({
+        url: apiTop.updateinfo,
+        method: 'post',
+        data: p,
+        headers: {
+           'UserId': p.UserId
+        }
+
+    })
+}
+
+// 删除
+export function DeleteInfo (p) {
+    return request({
+        url: apiTop.deleteinfo + '?FStId=' + p.FStId,
+        method: 'post',
+        headers: {
+            'UserId': p.UserId
+        }
+    })
+}
+// 获取申报单列表
+export function FindSbdInfo (p) {
+    return request({
+        url: apiTop.sbdinfo + '?pageindex=' + p.offsetSbd + '&pagesize=' + p.limitSbd + '&selectwhere=' + p.selectwhere,
+        method: 'get', // method: 'post',
+        headers: {
+            'UserId': p.UserId
+        }
+    })
+}
+
+export function FindShipperInfo (p) {
+    return request({
+        url: apiTop.shipperinfo + '?offset=' + p.offset + '&limit=' + p.limit + '&Type=' + p.Type + '&FFarmName=' + p.FFarmName,
+        method: 'get', // method: 'post',
+        headers: {
+            'UserId': p.UserId
+        }
+    })
+}
